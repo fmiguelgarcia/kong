@@ -225,6 +225,8 @@ function Kong.ssl_certificate()
 end
 
 function Kong.balancer()
+  core.balancer.before()
+
   local addr = ngx.ctx.balancer_address
   local tries = addr.tries
 
@@ -275,6 +277,8 @@ function Kong.balancer()
   if not ok then
     ngx.log(ngx.ERR, "could not set upstream timeouts: ", err)
   end
+
+  core.balancer.after()
 end
 
 function Kong.rewrite()
